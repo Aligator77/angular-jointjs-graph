@@ -19,11 +19,6 @@
 .organogram .chartArea {
   height: 100%;
 }
-.organogram .chartArea .element.html rect {
-  stroke-width: 1;
-  stroke: #ccc;
-  fill: white;
-}
 .organogram .chartArea .element.html.highlighted {
   outline: 0 solid #66ac3f;
 }
