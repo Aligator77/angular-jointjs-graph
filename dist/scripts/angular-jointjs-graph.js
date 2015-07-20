@@ -773,12 +773,17 @@ angular.module('angular-jointjs-graph')
           notifySelectionChange();
         },
         selectEntity: function(entity, identifier) {
-          this.select({
-            backendModelId: entity[GraphHelpers.getModelIdKey()],
-            selectedCellId: GraphEntities.jointModelId(identifier, entity),
+          this.revertSelection();
+
+          selection = {
             isChartNode: true,
+            selectedResource: entity,
+            selectedCellId: GraphEntities.jointModelId(identifier, entity),
+            masterResource: angular.copy(entity),
             entityIdentifier: identifier
-          });
+          };
+
+          notifySelectionChange();
         },
         getSelectedEntity: function() {
           return selection ? selection.selectedResource : null;
