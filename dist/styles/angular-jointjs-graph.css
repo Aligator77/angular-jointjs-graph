@@ -137,16 +137,19 @@
 }
 .graph-tools {
   position: absolute;
-  top: 10px;
-  bottom: 10px;
-  left: 10px;
+  top: 0;
+  left: 0;
+  padding: 10px 0 10px 10px;
+  max-height: 100%;
   display: flex;
   display: -webkit-flex;
   flex-direction: column;
   -webkit-flex-direction: column;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .graph-tools > * {
-  min-width: 186px;
+  width: 220px;
 }
 .graph-tools .basic {
   padding: 10px 20px;
@@ -276,11 +279,14 @@
 }
 .graph-tools .listing .remove-entity {
   position: absolute;
-  right: 20px;
+  right: 5px;
   font-weight: bold;
-  font-size: 20px;
-  line-height: 17px;
+  font-size: 17px;
+  line-height: 15px;
   cursor: pointer;
   color: #c4434b;
   display: none;
+}
+.graph-tools .listing .entity-item {
+  position: relative;
 }
