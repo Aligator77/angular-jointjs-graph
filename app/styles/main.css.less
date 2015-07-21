@@ -231,9 +231,11 @@
   display: -webkit-flex;
   flex-direction: column;
   -webkit-flex-direction: column;
+  user-select: none;
+  -webkit-user-select: none;
 
   & > * {
-    min-width: 186px;
+    width: 220px;
   }
 }
 
@@ -374,12 +376,16 @@
 
   .remove-entity {
     position: absolute;
-    right: 20px;
+    right: 5px;
     font-weight: bold;
-    font-size: 20px;
-    line-height: 17px;
+    font-size: 17px;
+    line-height: 15px;
     cursor: pointer;
     color: @red;
     display: none;
+  }
+
+  .entity-item {
+    position: relative;
   }
 }
