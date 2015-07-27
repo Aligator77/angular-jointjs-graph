@@ -22,8 +22,7 @@ angular.module('angular-jointjs-graph')
         }
 
         if (_.isArray(properties)) {
-          properties.push(modelIdKey);
-          return properties;
+          return angular.copy(properties).concat(modelIdKey);
         } else {
           return [modelIdKey];
         }
