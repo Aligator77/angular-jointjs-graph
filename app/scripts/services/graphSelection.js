@@ -39,12 +39,19 @@ angular.module('angular-jointjs-graph')
         }
       }
 
+      function revertNoNotify() {
+        if (selection) {
+          angular.copy(selection.masterResource, selection.selectedResource);
+          updateSelection();
+        }
+      }
+
       return {
         onSelectionChange: function(callback) {
           selectionChangeCallback = callback;
         },
         select: function(selectedIds) {
-          this.revertSelection();
+          revertNoNotify();
 
           if (selectedIds) {
             var cell = JointGraph.getCell(selectedIds.selectedCellId),
@@ -66,7 +73,7 @@ angular.module('angular-jointjs-graph')
           notifySelectionChange();
         },
         selectEntity: function(entity, identifier) {
-          this.revertSelection();
+          revertNoNotify();
 
           selection = {
             isChartNode: true,
@@ -102,10 +109,7 @@ angular.module('angular-jointjs-graph')
         },
         clearAndRevert: function() {
           JointPaper.clearSelection();
-          if (selection) {
-            angular.copy(selection.masterResource, selection.selectedResource);
-            updateSelection();
-          }
+          revertNoNotify();
           selection = null;
           notifySelectionChange();
         }
