@@ -20,8 +20,8 @@ angular.module('angular-jointjs-graph')
             registerFactory(Config.entityMarkupParams, 'JointNodeParams');
             registerFactory(Config.linkMarkupParams, 'JointLinkParams');
 
-            _.each(Config.entityCreationCallbacks, function(value, key) {
-              registerFactory(value, key);
+            Object.keys(Config.entityCreationCallbacks).forEach(function(key) {
+              registerFactory(Config.entityCreationCallbacks[key], key);
             });
           }
         },

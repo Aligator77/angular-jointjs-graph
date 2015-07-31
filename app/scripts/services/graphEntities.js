@@ -5,27 +5,25 @@ angular.module('angular-jointjs-graph')
       var entities = {},
           entityToJointModelMap = {};
 
-      function getIdHash(uniqueId) {
-        var properties = {},
-            modelIdKey = GraphHelpers.getModelIdKey();
-
-        properties[modelIdKey] = uniqueId;
-        return properties;
-      }
-
       function getIdentifiers(graphModel) {
         var backendModelParams = graphModel.backendModelParams || graphModel.get('backendModelParams'),
             typeIdentifier = backendModelParams.entityIdentifier,
             modelIdKey = GraphHelpers.getModelIdKey(),
             uniqueId = backendModelParams[modelIdKey];
 
-        return { typeIdentifier: typeIdentifier, uniqueId: uniqueId };
+        return { typeIdentifier: typeIdentifier, uniqueId: uniqueId, modelIdKey: modelIdKey };
+      }
+
+      function findEntity(identifiers) {
+        return entities[identifiers.typeIdentifier].filter(function(entity) {
+          return entity[identifiers.modelIdKey] === identifiers.uniqueId;
+        })[0];
       }
 
       return {
         set: function(entitiesMap) {
-          _.each(entitiesMap, function(value, identifier) {
-            entities[identifier] = value;
+          Object.keys(entitiesMap).forEach(function(identifier) {
+            entities[identifier] = entitiesMap[identifier];
             entityToJointModelMap[identifier] = {};
           });
         },
@@ -37,8 +35,7 @@ angular.module('angular-jointjs-graph')
           entities[ids.typeIdentifier].unshift(entity);
         },
         getSingle: function(graphElement) {
-          var ids = getIdentifiers(graphElement);
-          return _.findWhere(entities[ids.typeIdentifier], getIdHash(ids.uniqueId));
+          return findEntity(getIdentifiers(graphElement));
         },
         getForType: function(identifier) {
           return entities[identifier];
@@ -47,7 +44,7 @@ angular.module('angular-jointjs-graph')
           var ids = getIdentifiers(graphElement);
 
           entityToJointModelMap[ids.typeIdentifier][ids.uniqueId] = graphElement.id;
-          var entity = _.findWhere(entities[ids.typeIdentifier], getIdHash(ids.uniqueId));
+          var entity = findEntity(ids);
 
           if (entity) {
             entity.show = false;
@@ -57,7 +54,7 @@ angular.module('angular-jointjs-graph')
           var ids = getIdentifiers(graphElement);
 
           delete entityToJointModelMap[ids.typeIdentifier][ids.uniqueId];
-          var entity = _.findWhere(entities[ids.typeIdentifier], getIdHash(ids.uniqueId));
+          var entity = findEntity(ids);
 
           if (entity) {
             entity.show = true;

@@ -20,7 +20,7 @@ angular.module('angular-jointjs-graph')
                 GraphHelpers.entityProperties(selection.entityIdentifier) :
                 GraphHelpers.linkProperties();
 
-            _.each(properties, function(propertyKey) {
+            properties.forEach(function(propertyKey) {
               modelValues[propertyKey] = selection.selectedResource[propertyKey];
             });
 
@@ -34,7 +34,7 @@ angular.module('angular-jointjs-graph')
       }
 
       function notifySelectionChange() {
-        if (_.isFunction(selectionChangeCallback)) {
+        if (angular.isFunction(selectionChangeCallback)) {
           selectionChangeCallback(selection);
         }
       }

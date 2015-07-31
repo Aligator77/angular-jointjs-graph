@@ -13,9 +13,16 @@ angular.module('angular-jointjs-graph')
 
               data.graph.$get().then(function(graph) {
                 $scope.graph = graph;
-                return $q.all(_.object(_.map(data.entities, function(resource, identifier) {
-                  return [identifier, GraphHelpers.queryResource(resource)];
-                })));
+                return Object.keys(data.entities).map(function(key) {
+                  return { key: key, promise: GraphHelpers.queryResource(data.entities[key]) };
+                }).reduce(function(prev, current) {
+                  return prev.then(function(entitiesMap) {
+                    return current.promise.then(function(array) {
+                      entitiesMap[current.key] = array;
+                      return entitiesMap;
+                    });
+                  });
+                }, $q.when({}));
               }).then(function(entitiesMap) {
                 GraphEntities.set(entitiesMap);
                 $scope.$broadcast('graphEntitiesLoaded', entitiesMap);
@@ -61,7 +68,7 @@ angular.module('angular-jointjs-graph')
                     JSON.parse($scope.graph.content) : {};
 
               if (graphContent.cells) {
-                _.each(graphContent.cells, function (element) {
+                graphContent.cells.forEach(function(element) {
                   if (element.isChartNode) {
                     GraphEntities.markPresentOnGraph(element);
                   }

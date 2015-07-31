@@ -31,20 +31,20 @@ angular.module('angular-jointjs-graph')
             postData = {},
             self = this;
 
-          if (_.isFunction(configObject.postDataFn)) {
+          if (angular.isFunction(configObject.postDataFn)) {
             postData = configObject.postDataFn(this);
           }
 
           configObject.resource.save({}, postData, function(response) {
             var params = self.get('backendModelParams');
 
-            _.each(params, function(value, key) {
+            Object.keys(params).forEach(function(key) {
               if (response.hasOwnProperty(key)) {
                 params[key] = response[key];
               }
             });
 
-            if (_.isFunction(configObject.modelUpdateCallback)) {
+            if (angular.isFunction(configObject.modelUpdateCallback)) {
               configObject.modelUpdateCallback(self, response);
             }
 

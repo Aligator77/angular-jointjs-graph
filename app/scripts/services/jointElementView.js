@@ -23,7 +23,7 @@ angular.module('angular-jointjs-graph')
             });
 
             removeElementView.on('click', function(event) {
-              _.each(self.paper.model.getConnectedLinks(self.model), function(link) {
+              self.paper.model.getConnectedLinks(self.model).forEach(function(link) {
                 link.remove({ skipGraphSave: true });
               });
               self.model.remove();

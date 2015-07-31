@@ -58,7 +58,7 @@ angular.module('angular-jointjs-graph')
         }
 
         LinkModel.prototype.toggleForbiddenHighlight = function(toggleOn) {
-          _.each(getSourceAndTargetViews(this), function(view) {
+          getSourceAndTargetViews(this).forEach(function(view) {
             if (view) {
               var selector = $window.V(view.el),
                 method = toggleOn ? selector.addClass : selector.removeClass;

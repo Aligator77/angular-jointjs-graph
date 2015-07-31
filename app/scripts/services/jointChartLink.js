@@ -11,7 +11,7 @@ angular.module('angular-jointjs-graph')
               backendModelParams = {},
               properties = GraphHelpers.linkProperties();
 
-          _.each(properties, function(prop) {
+          properties.forEach(function(prop) {
             backendModelParams[prop] = 'undefined';
           });
 

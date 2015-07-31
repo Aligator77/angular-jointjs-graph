@@ -13,7 +13,7 @@ angular.module('angular-jointjs-graph')
               modelProperties  = GraphHelpers.entityProperties(entityIdentifier);
 
           if (modelProperties) {
-            _.each(modelProperties, function(property) {
+            modelProperties.forEach(function(property) {
               element[0].dataset[property] = undefined;
             });
           }

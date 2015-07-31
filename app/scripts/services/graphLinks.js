@@ -4,13 +4,13 @@ angular.module('angular-jointjs-graph')
     function(GraphHelpers) {
       var links = [];
 
-      function getIdHash(graphModel) {
+      function findLink(graphModel) {
         var backendModelParams = graphModel.get('backendModelParams'),
-            properties = {},
             modelIdKey = GraphHelpers.getModelIdKey();
 
-        properties[modelIdKey] = backendModelParams[modelIdKey];
-        return properties;
+        return links.filter(function(link) {
+          return link[modelIdKey] === backendModelParams[modelIdKey];
+        })[0];
       }
 
       return {
@@ -21,10 +21,10 @@ angular.module('angular-jointjs-graph')
           links.push(entity);
         },
         getSingle: function(graphElement) {
-          return _.findWhere(links, getIdHash(graphElement));
+          return findLink(graphElement);
         },
         remove: function(graphElement) {
-          _.remove(links, getIdHash(graphElement));
+          links.splice(links.indexOf(findLink(graphElement)), 1);
         }
       };
     }

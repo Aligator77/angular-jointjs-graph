@@ -10,7 +10,7 @@ angular.module('angular-jointjs-graph')
               modelProperties = GraphHelpers.entityProperties(entityIdentifier),
               liElement = $element[0];
 
-          _.each(modelProperties, function(property) {
+          modelProperties.forEach(function(property) {
             liElement.dataset[property] = $scope.entity[property];
 
             $scope.$watch('entity.' + property, function(value) {
