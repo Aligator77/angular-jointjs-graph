@@ -521,3 +521,14 @@ The following methods are available in the scope of the `graph` directive and in
     associated JointJs model present on the graph. In this case, the `selectedCellId` of the selection
     object will be undefined. This method makes it possible to deal with selection of entity models
     listed in the existing list which haven't been dragged onto the graph yet.
+
+
+## Acknowledgements
+
+The framework was inspired by the gaudi.io website, whose source code can be found 
+[here](https://github.com/marmelab/gaudi.io).
+
+## License
+
+angular-jointjs-graph is licensed under the 
+[MIT License](https://github.com/elsix/angular-jointjs-graph/blob/dev/LICENSE).
