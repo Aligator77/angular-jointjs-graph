@@ -1,24 +1,16 @@
 'use strict';
 angular.module('angular-jointjs-graph')
-  .factory('GraphHelpers', ['$q', 'FactoryMap',
-    function($q, FactoryMap) {
+  .factory('GraphHelpers', ['$q', 'JointGraphConfig',
+    function($q, JointGraphConfig) {
       function getProperties(identifier) {
-        var Config = FactoryMap.get('JointGraphConfig'),
-            modelIdKey,
+        var modelIdKey = JointGraphConfig.modelIdKey || 'id',
             properties;
 
-        if (Config) {
-          modelIdKey = Config.modelIdKey || 'id';
-
-          if (identifier) {
-            properties = Config.entityModelProperties ?
-              Config.entityModelProperties[identifier] : null;
-          } else {
-            properties = Config.linkModelProperties;
-          }
+        if (identifier) {
+          properties = JointGraphConfig.entityModelProperties ?
+            JointGraphConfig.entityModelProperties[identifier] : null;
         } else {
-          modelIdKey = 'id';
-          properties = null;
+          properties = JointGraphConfig.linkModelProperties;
         }
 
         if (angular.isArray(properties)) {
@@ -29,8 +21,7 @@ angular.module('angular-jointjs-graph')
       }
 
       function getModelIdKey() {
-        var Config = FactoryMap.get('JointGraphConfig');
-        return (Config && Config.modelIdKey) ? Config.modelIdKey : 'id';
+        return JointGraphConfig.modelIdKey ? JointGraphConfig.modelIdKey : 'id';
       }
 
       return {

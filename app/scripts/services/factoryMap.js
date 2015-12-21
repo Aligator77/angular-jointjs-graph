@@ -4,26 +4,9 @@ angular.module('angular-jointjs-graph')
     function($injector) {
       var factoriesMap = {};
 
-      function registerFactory(factoryName, alias) {
-        factoriesMap[alias || factoryName] = factoryName;
-      }
-
       return {
-        registerFactories: function(configFactoryName) {
-          if (configFactoryName) {
-            registerFactory(configFactoryName, 'JointGraphConfig');
-
-            // This line is unguarded deliberately. A config factory must be provided by the user
-            var Config = $injector.get(configFactoryName);
-
-            registerFactory(Config.linkCreationCallbacks, 'LinkFactory');
-            registerFactory(Config.entityMarkupParams, 'JointNodeParams');
-            registerFactory(Config.linkMarkupParams, 'JointLinkParams');
-
-            Object.keys(Config.entityCreationCallbacks).forEach(function(key) {
-              registerFactory(Config.entityCreationCallbacks[key], key);
-            });
-          }
+        register: function (factoryName, alias) {
+          factoriesMap[alias || factoryName] = factoryName;
         },
         get: function(nameOrAlias) {
           try {

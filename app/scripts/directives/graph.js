@@ -1,13 +1,13 @@
 'use strict';
 angular.module('angular-jointjs-graph')
-  .directive('graph', ['JointGraph', 'JointChartNode', 'JointElementView', 'JointNodeModel', 'JointPaper', '$q', 'GraphHelpers', 'GraphEntities', 'GraphLinks', 'GraphSelection', 'FactoryMap', 'JointGraphResources',
-    function(JointGraph, JointChartNode, JointElementView, JointNodeModel, JointPaper, $q, GraphHelpers, GraphEntities, GraphLinks, GraphSelection, FactoryMap, JointGraphResources) {
+  .directive('graph', ['JointGraph', 'JointChartNode', 'JointElementView', 'JointNodeModel', 'JointPaper', '$q', 'GraphHelpers', 'GraphEntities', 'GraphLinks', 'GraphSelection', 'JointGraphResources',
+    function(JointGraph, JointChartNode, JointElementView, JointNodeModel, JointPaper, $q, GraphHelpers, GraphEntities, GraphLinks, GraphSelection, JointGraphResources) {
       return {
         restrict: 'E',
         templateUrl: 'angular-joints-graph/templates/graph',
         transclude: true,
         controller: ['$scope', '$element', '$attrs',
-          function($scope, $element, $attrs) {
+          function($scope, $element) {
             $scope.$on('graphResources', function(event, data) {
               JointGraphResources.set(data);
 
@@ -196,7 +196,6 @@ angular.module('angular-jointjs-graph')
               GraphSelection.select(JointPaper.selectCell(cellView));
             }
 
-            FactoryMap.registerFactories($attrs.configFactory);
             GraphSelection.onSelectionChange(function(selection) {
               $scope.$broadcast('graphSelection', selection);
             });
