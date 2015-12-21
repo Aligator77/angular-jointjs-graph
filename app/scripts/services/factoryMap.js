@@ -1,24 +1,28 @@
 'use strict';
 angular.module('angular-jointjs-graph')
-  .factory('FactoryMap', ['$injector',
-    function($injector) {
+  .provider('FactoryMap', [
+    function() {
       var factoriesMap = {};
 
-      return {
-        register: function (factoryName, alias) {
-          factoriesMap[alias || factoryName] = factoryName;
-        },
-        get: function(nameOrAlias) {
-          try {
-            if (factoriesMap[nameOrAlias]) {
-              return $injector.get(factoriesMap[nameOrAlias], null);
-            } else {
-              return null;
-            }
-          } catch(e) {
-            return null;
-          }
-        }
+      this.register = function(factoryName, alias) {
+        factoriesMap[alias || factoryName] = factoryName;
       };
+
+      this.$get = ['$injector',
+        function($injector) {
+          return {
+            get: function(nameOrAlias) {
+              try {
+                if (factoriesMap[nameOrAlias]) {
+                  return $injector.get(factoriesMap[nameOrAlias], null);
+                } else {
+                  return null;
+                }
+              } catch(e) {
+                return null;
+              }
+            }
+          };
+        }];
     }
   ]);
