@@ -6,9 +6,6 @@ angular.module('angular-jointjs-graph')
         $window.joint.shapes.html.ElementView = $window.joint.dia.ElementView.extend({
           link: null,
           canUpdateLink: false,
-          initialize: function () {
-            $window.joint.dia.ElementView.prototype.initialize.apply(this, arguments);
-          },
           render: function () {
             $window.joint.dia.ElementView.prototype.render.apply(this, arguments);
 
@@ -29,8 +26,6 @@ angular.module('angular-jointjs-graph')
               self.model.remove();
               self.model.trigger('nodeRemoved', event, self.model);
             });
-            removeElementView.on('mouseenter', function() { $(this).find('.cross').get(0).setAttribute('opacity', 1.0); });
-            removeElementView.on('mouseleave', function() { $(this).find('.cross').get(0).setAttribute('opacity', 0.4); });
 
             this.paper.$el.mousemove(this.onMouseMove.bind(this));
             this.paper.$el.mouseup(this.onMouseUp.bind(this));
