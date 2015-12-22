@@ -8,7 +8,7 @@ angular.module('angular-jointjs-graph')
           // The corresponding html.ElementView is defined
           // in the JointElementView service.
           type: 'html.Element',
-          attrs: FactoryMap.get('JointNodeParams').get({}).attrs
+          attrs: FactoryMap.get('JointNodeParams').defaults
         }, $window.joint.shapes.basic.Generic.prototype.defaults)
       });
 

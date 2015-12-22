@@ -26,7 +26,7 @@ angular.module('angular-jointjs-graph')
               };
 
           if (ParamsFactory) {
-            angular.extend(params, ParamsFactory.get(entityAttributes));
+            params.attrs = ParamsFactory.computed(entityAttributes);
           }
 
           return EntityFactory.create(params);

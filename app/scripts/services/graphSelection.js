@@ -24,7 +24,7 @@ angular.module('angular-jointjs-graph')
               modelValues[propertyKey] = selection.selectedResource[propertyKey];
             });
 
-            var attributes = paramsFactory.get(modelValues).attrs;
+            var attributes = paramsFactory.computed(modelValues);
 
             if (attributes) {
               cell.attr(attributes);
