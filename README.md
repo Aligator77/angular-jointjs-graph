@@ -124,8 +124,8 @@ resource is selected.
 There are several steps required to use the framework:
 
   1. Declare the `angular-jointjs-graph` module as dependency to your main application module
-  2. Insert the required HTML/SVG markup
-  3. Define a factory returning a configuration object
+  2. Declare the required HTML/SVG markup, including a template for the graph nodes
+  3. Initialize the framework with a configuration object
   4. Issue an event carrying the `$resource` objects for the entity and relations backend models 
   5. Define optional factories providing callbacks invoked during the entity/link creation process
   6. Define factories providing user-specified SVG attributes for the entity and relation models
@@ -145,10 +145,7 @@ angular.module('app', ['angular-jointjs-graph']);
 The following snippet gives an overview of the markup structure.
 
 ```html
-<graph config-factory="ConfigFactoryName">
-  <graph-node>
-    SVG markup goes here
-  <graph-node>
+<graph>
   <graph-side-panel-tools>
     <graph-new-entity entity-identifier="firstEntity">
       <div class="entityOneIcon"></div>Other content...
@@ -168,12 +165,6 @@ encapsulates the main chart drawing area and is styled with `position: absolute`
 and height, relying on the user-specified parent for proper positioning and size. The directive exposes
 several methods on its scope that are visible to its children and uses events to notify actions like
 selection of a chart element. All the methods and events are documented in [this](#scope-interface) chapter. 
-The directive takes a single attribute as an argument, which must be the name of a registered factory/service 
-returning a configuration object for the framework, as described in the next chapter, [Configuration](#config).
-
-The `graph-node` directive uses and SVG template and transclusion, providing a basic layout and an
-extension point for custom styling of the chart elements representing entity models. The topic is discussed in
-more detail in the section [Graph node SVG template](#graph-node-svg).
 
 The `graph-side-panel-tools` directive provides visual means to create new nodes on the graph via drag
 and drop. It is a container for the `graph-new-entity` and `graph-existing-entities` directives. The former 
@@ -199,9 +190,7 @@ the nodes on the graph - e.g. detailed info upon selection.
 
 ### <a name="graph-node-svg"></a>Graph node SVG template
 
-The framework defines a very basic template for presenting the nodes on the graph. It consists
-of a plain rectangle, a connection port area, from which a new link can be dragged away, and a node 
-remove area, which removes the node upon click:
+Prior to version `0.1.8`, the framework defined a _partial_ template for presenting the nodes on the graph. It had the following markup:
 
 ```SVG
 <g class="graph-node-template">
@@ -216,39 +205,25 @@ remove area, which removes the node upon click:
   </g>
 </g>
 ```
-
-A simple way to enhance this template is to transclude content into it and style the
-transcluded elements via CSS and/or attributes passed via a factory, as described in the section
-[SVG attribute factories](#attr-factories).
-
-```html
-<graph-node>
-  <text class="name"></text>
-  <text class="country"></text>
-<graph-node>
-```
-
-If the user wishes to present a custom look that can't be achieved by simply transcluding
-content, the whole template may be overwritten by using Angular's `$templateCache` and
-registering a new template named `angular-joints-graph/templates/graphNode`. However,
-the framework relies on the two classes `connection-port` and `remove-element` to
-trigger link creation and node removal events, so the new template should contain elements
-with those two classes in order for these events to be issued and handled properly.
+This proved to be fairly limiting, so from version `0.1.8` the framework defines no template and the graph elements
+inherit from `joint.shapes.basic.Generic`. This puts more burden on the client, since the full template must be 
+provided, but allows for greater flexibility since the graph elements can have arbitrary appearance and behavior. 
+The template must be supplied to the framework via Angular's `$templateCache` service and is expected to have the 
+identifier `graphNode`. The only assumption made by the framework is that two classes, `connection-port` and
+`remove-element`, are declared on two elements of the layout. Those two elements will trigger the link creation and 
+node removal events.
 
 ### <a name="config"></a>Configuration
 
-The framework accepts configuration parameters provided by a factory returning a plain 
-javascript object. It can have an arbitrary name which must be passed to the `graph` 
-directive as described in the previous section. The framework can be used without 
-specifying such factory, although this may only be useful for testing/debugging 
-purposes. All the keys in the returned object are similarly optional. In its fullest 
-form, the configuration object looks as following:
+The framework is configured via the `JointGraphConfig` provider by supplying a configuration object. Omitting
+the provider configuration will result in a runtime exception. The following example illustrates the expected syntax
+of the config object:
 
 ```javascript
-angular.module('app')
-  .factory('ConfigFactoryName', [
-    function() {
-      return {
+angular.module('angular-jointjs-graph')
+  .config(['JointGraphConfigProvider',
+    function(JointGraphConfigProvider) {
+      JointGraphConfigProvider.init({
         entityModelProperties: {
           firstEntity: ['property1', 'property2'...],
           secondEntity: ['property3', 'property4'...]
@@ -262,7 +237,7 @@ angular.module('app')
         linkCreationCallbacks: 'LinkCallbacks',
         entityMarkupParams: 'EntityMarkup',
         linkMarkupParams: 'LinkMarkup'
-      };
+      });
     }
   ]);
 ```
@@ -275,7 +250,7 @@ objects) to the JointJS models on the graph, enabling custom styling and behavio
 you have used the following markup in the `graph` directive:
 
 ```html
-<graph config-factory="GraphConfig">
+<graph>
   <graph-side-panel-tools>
     <graph-new-entity entity-identifier="project">
       <div class="projectIcon"></div>
