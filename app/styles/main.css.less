@@ -83,44 +83,6 @@
         stroke: @selection-color;
         stroke-width: 2;
       }
-
-      .connection-port {
-        cursor: crosshair;
-      }
-
-      .connection-port circle.outer {
-        stroke-width: 2;
-        stroke: black;
-        fill: white;
-      }
-
-      .connection-port circle.inner {
-        fill: black;
-      }
-
-      .remove-element {
-        opacity: 0;
-        transition: all linear 0.1s;
-        cursor: pointer;
-
-        .cross {
-          stroke: black;
-          stroke-width: 2;
-          stroke-linecap: round;
-          opacity: 0.4;
-
-          &:hover {
-            opacity: 1;
-          }
-        }
-      }
-
-      &:hover {
-        .remove-element {
-          opacity: 1;
-          transition: all linear 0.1s;
-        }
-      }
     }
 
     .link {

@@ -13,20 +13,6 @@ angular.module('angular-jointjs-graph/templates', [])
         '</div>'
       );
 
-      $templateCache.put('angular-joints-graph/templates/graphNode',
-        '<g class="graph-node-template">\n' +
-          '<rect width="260" height="38" stroke-width="1" stroke="#ccc" fill="white"/>\n' +
-          '<g ng-transclude></g>\n' +
-          '<g class="connection-port">\n' +
-            '<circle class="outer" cx="15" cy="19" r="6"/>\n' +
-            '<circle class="inner" cx="15" cy="19" r="2.5"/>\n' +
-          '</g>\n' +
-          '<g class="remove-element">\n' +
-            '<path class="cross" transform="translate(235, 15)" opacity="0.4" d="M0,0 L10,10 M10,0 L0,10"/>\n' +
-          '</g>\n' +
-        '</g>'
-      );
-
       $templateCache.put('angular-joints-graph/templates/graphSidePanelTools',
         '<div class="graph-tools">\n' +
           '<div class="basic">\n' +
