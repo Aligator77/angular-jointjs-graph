@@ -40,31 +40,6 @@
   stroke: #efbe2c;
   stroke-width: 2;
 }
-.organogram .chartArea .element.html .remove-element .cross {
-  stroke: black;
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-.organogram .chartArea .element.html .connection-port {
-  cursor: crosshair;
-}
-.organogram .chartArea .element.html .connection-port circle.outer {
-  stroke-width: 2;
-  stroke: black;
-  fill: white;
-}
-.organogram .chartArea .element.html .connection-port circle.inner {
-  fill: black;
-}
-.organogram .chartArea .element.html .remove-element {
-  opacity: 0;
-  transition: all linear 0.1s;
-  cursor: pointer;
-}
-.organogram .chartArea .element.html:hover .remove-element {
-  opacity: 1;
-  transition: all linear 0.1s;
-}
 .organogram .chartArea .link .connection {
   stroke: #AAAAAA;
   stroke-width: 1px;
