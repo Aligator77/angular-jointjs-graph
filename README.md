@@ -28,7 +28,7 @@ source 'https://rails-assets.org'
 Then include the gem:
 
 ```
-gem 'rails-assets-angular-jointjs-graph'
+gem 'rails-assets-angular-jointjs-graph', '~> 0.1.8'
 ```
 
 Since the package depends on several libraries, you must include them manually in your application.js file
@@ -40,8 +40,8 @@ Since the package depends on several libraries, you must include them manually i
 //= require angular-resource
 //= require lodash
 //= require backbone
-//= require joint/joint.nojquerynobackbone
-//= require angular-jointjs-graph/angular-jointjs-graph
+//= require joint
+//= require angular-jointjs-graph
 ```
 
 Similarly, include the provided styles in your main styles file:
