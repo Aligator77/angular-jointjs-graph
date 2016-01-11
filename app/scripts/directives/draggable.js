@@ -2,13 +2,12 @@
 angular.module('angular-jointjs-graph')
   .directive('draggable', ['$window',
     function ($window) {
-      return function (scope, element) {
+      return function(scope, element) {
         var el = element[0];
         el.draggable = true;
 
-        el.addEventListener('dragstart', function (e) {
+        el.addEventListener('dragstart', function(e) {
           e.dataTransfer.effectAllowed = 'copy';
-          e.dataTransfer.setData('entity-attributes', JSON.stringify(el.dataset));
 
           this.classList.add('drag');
 
@@ -16,9 +15,13 @@ angular.module('angular-jointjs-graph')
           // being dragged in order to place it correctly on canvas.
           // The bounding rectangle takes page scroll position into account.
           var left = e.clientX - e.target.getBoundingClientRect().left,
-            top  = e.clientY - e.target.getBoundingClientRect().top,
-            offsetPoint = $window.g.point(left, top);
-          e.dataTransfer.setData('pointer-offset', offsetPoint);
+              top  = e.clientY - e.target.getBoundingClientRect().top,
+              offsetPoint = $window.g.point(left, top);
+
+          e.dataTransfer.setData('text', JSON.stringify({
+            'entity-attributes': el.dataset,
+            'pointer-offset': offsetPoint
+          }));
         });
 
         el.addEventListener('dragend', function () {
