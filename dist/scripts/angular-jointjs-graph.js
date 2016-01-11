@@ -54,13 +54,12 @@ angular.module('angular-jointjs-graph/templates', [])
 angular.module('angular-jointjs-graph')
   .directive('draggable', ['$window',
     function ($window) {
-      return function (scope, element) {
+      return function(scope, element) {
         var el = element[0];
         el.draggable = true;
 
-        el.addEventListener('dragstart', function (e) {
+        el.addEventListener('dragstart', function(e) {
           e.dataTransfer.effectAllowed = 'copy';
-          e.dataTransfer.setData('entity-attributes', JSON.stringify(el.dataset));
 
           this.classList.add('drag');
 
@@ -68,9 +67,13 @@ angular.module('angular-jointjs-graph')
           // being dragged in order to place it correctly on canvas.
           // The bounding rectangle takes page scroll position into account.
           var left = e.clientX - e.target.getBoundingClientRect().left,
-            top  = e.clientY - e.target.getBoundingClientRect().top,
-            offsetPoint = $window.g.point(left, top);
-          e.dataTransfer.setData('pointer-offset', offsetPoint);
+              top  = e.clientY - e.target.getBoundingClientRect().top,
+              offsetPoint = $window.g.point(left, top);
+
+          e.dataTransfer.setData('text', JSON.stringify({
+            'entity-attributes': el.dataset,
+            'pointer-offset': offsetPoint
+          }));
         });
 
         el.addEventListener('dragend', function () {
@@ -96,18 +99,20 @@ angular.module('angular-jointjs-graph')
           el.addEventListener('drop', function(e) {
             e.stopPropagation();
 
+            var dataTransfer = JSON.parse(e.dataTransfer.getData('text'));
+
             /*
              * This offset represents position of mouse pointer relative to the
              * element being dragged. We set its value when drag starts and keep
              * it in the event object. This offset is used to correctly position
              * newly created element – it should be right below the dragged element.
              */
-            var pointerOffset = $window.g.point(e.dataTransfer.getData('pointer-offset')),
-              elementOffset = element[0].getBoundingClientRect(),
-              left = Math.floor(e.clientX - elementOffset.left - pointerOffset.x),
-              top  = Math.floor(e.clientY - elementOffset.top - pointerOffset.y),
-              dropPoint = $window.g.point(left, top),
-              entityAttributes = JSON.parse(e.dataTransfer.getData('entity-attributes'));
+            var pointerOffset = dataTransfer['pointer-offset'],
+                elementOffset = element[0].getBoundingClientRect(),
+                left = Math.floor(e.clientX - elementOffset.left - pointerOffset.x),
+                top  = Math.floor(e.clientY - elementOffset.top - pointerOffset.y),
+                dropPoint = $window.g.point(left, top),
+                entityAttributes = dataTransfer['entity-attributes'];
 
             scope.$emit('graphDropEvent', { entityAttributes: entityAttributes, dropPoint: dropPoint });
           });
