@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.1.9](https://github.com/elsix/angular-jointjs-graph/tree/0.1.9) (2016-01-11)
+[Full Changelog](https://github.com/elsix/angular-jointjs-graph/compare/0.1.8...0.1.9)
+
+**Closed issues:**
+
+- Drag and drop seems broken on IE11, Microsoft Edge [\#4](https://github.com/elsix/angular-jointjs-graph/issues/4)
+
 ## [0.1.8](https://github.com/elsix/angular-jointjs-graph/tree/0.1.8) (2015-12-22)
 [Full Changelog](https://github.com/elsix/angular-jointjs-graph/compare/0.1.7...0.1.8)
 
